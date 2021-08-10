@@ -202,13 +202,28 @@ function dateStamp(func) {
   };
 }
 
-/*** Uncomment these to check your work! ***/
-const stampedMultBy2 = dateStamp(n => n * 2);
-console.log(stampedMultBy2(4)); // => should log { date: (today's date), output: 8 }
-console.log(stampedMultBy2(6)); // => should log { date: (today's date), output: 12 }
+// /*** Uncomment these to check your work! ***/
+// const stampedMultBy2 = dateStamp(n => n * 2);
+// console.log(stampedMultBy2(4)); // => should log { date: (today's date), output: 8 }
+// console.log(stampedMultBy2(6)); // => should log { date: (today's date), output: 12 }
 
 // CHALLENGE 12
-function censor() {}
+function censor() {
+  const map = {};
+  let finalString = '';
+  return (...args) => {
+    const [firstArg, secondArg] = args;
+    if (args.length === 2) {
+      map[firstArg] = secondArg;
+    } else {
+      finalString = firstArg;
+      Object.entries(map).forEach(([key, value]) => {
+        finalString = finalString.replace(key, value);
+      });
+      return finalString;
+    }
+  };
+}
 
 // /*** Uncomment these to check your work! ***/
 // const changeScene = censor();
@@ -217,16 +232,28 @@ function censor() {}
 // console.log(changeScene('The quick, brown fox jumps over the lazy dogs.')); // => should log 'The slow, brown fox jumps over the lazy cats.'
 
 // CHALLENGE 13
-function createSecretHolder(secret) {}
+function createSecretHolder(secret) {
+  const secretHolder = { secret };
+  return {
+    getSecret: () => secretHolder.secret,
+    setSecret: secret => (secretHolder.secret = secret),
+  };
+}
 
 // /*** Uncomment these to check your work! ***/
-// obj = createSecretHolder(5)
-// obj.getSecret() // => returns 5
-// obj.setSecret(2)
-// obj.getSecret() // => returns 2
+// let obj = createSecretHolder(5)
+// console.log(obj.getSecret() )// => returns 5
+// console.log(obj.setSecret(2))
+// console.log(obj.getSecret() )// => returns 2
 
 // CHALLENGE 14
-function callTimes() {}
+function callTimes() {
+  let timesCalled = 0;
+  return () => {
+    timesCalled++;
+    return timesCalled;
+  }
+}
 
 // /*** Uncomment these to check your work! ***/
 // let myNewFunc1 = callTimes();
@@ -237,7 +264,15 @@ function callTimes() {}
 // myNewFunc2(); // => 2
 
 // CHALLENGE 15
-function russianRoulette(num) {}
+function russianRoulette(num) {
+  return () => {
+    if (num <= 0) return 'Reload to play again'
+    num--
+
+    if (num > 0) return 'click';
+    if (num === 0) return 'bang';
+  }
+}
 
 // /*** Uncomment these to check your work! ***/
 // const play = russianRoulette(3);
@@ -248,7 +283,20 @@ function russianRoulette(num) {}
 // console.log(play()); // => should log 'reload to play again'
 
 // CHALLENGE 16
-function average() {}
+function average() {
+  const memory = {
+    total: 0,
+    count: 0,
+    average: () => memory.total / memory.count || 0, // Won't round for sake of the exercise...
+  };
+  return num => {
+    if (num) {
+      memory.total += num;
+      memory.count++;
+    }
+    return memory.average();
+  };
+}
 
 // /*** Uncomment these to check your work! ***/
 // const avgSoFar = average();
